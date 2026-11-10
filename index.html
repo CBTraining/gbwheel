@@ -97,6 +97,8 @@
     .items-stretch { align-items: stretch; }
     .justify-center { justify-content: center; }
     .justify-between { justify-content: space-between; }
+    .gap-1 { gap: 0.25rem; }
+    .gap-1\.5 { gap: 0.375rem; }
     .gap-2 { gap: 0.5rem; }
     .space-y-2 > :not([hidden]) ~ :not([hidden]) { margin-top: 0.5rem; }
     .space-x-1 > :not([hidden]) ~ :not([hidden]) { margin-left: 0.25rem; }
@@ -106,6 +108,9 @@
     .w-5 { width: 1.25rem; }
     .h-6 { height: 1.5rem; }
     .w-6 { width: 1.5rem; }
+    .h-7 { height: 1.75rem; }
+    .w-10 { width: 2.5rem; }
+    .w-16 { width: 4rem; }
     .h-auto { height: auto; }
     .h-full { height: 100%; }
     .h-screen { height: 100vh; height: 100dvh; }
@@ -122,10 +127,13 @@
     .p-5 { padding: 1.25rem; }
     .p-6 { padding: 1.5rem; }
     .p-8 { padding: 2rem; }
+    .px-1 { padding-left: 0.25rem; padding-right: 0.25rem; }
+    .px-1\.5 { padding-left: 0.375rem; padding-right: 0.375rem; }
     .px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
     .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
     .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
     .px-10 { padding-left: 2.5rem; padding-right: 2.5rem; }
+    .py-0\.5 { padding-top: 0.125rem; padding-bottom: 0.125rem; }
     .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
     .py-2\.5 { padding-top: 0.625rem; padding-bottom: 0.625rem; }
     .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
@@ -439,6 +447,18 @@
       cursor: pointer;
     }
 
+    /* Clean number input without native spin arrows */
+    .qty-input::-webkit-outer-spin-button,
+    .qty-input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .qty-input {
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+
     #addNewItemSymbolButton svg {
       transition: color 0.15s ease-in-out, transform 0.15s ease-in-out;
     }
@@ -540,22 +560,35 @@
     </div>
 
     <div class="mb-4 p-4 bg-[#0d0d0d] rounded-xl border border-[#222222] shadow-sm">
-      <label for="newItemName" class="block text-sm font-medium text-white mb-2">Add New Item</label>
-      <div class="input-with-button-container flex items-center">
-        <input type="text"
-                       id="newItemName"
-                       maxlength="60"
-                       autocomplete="off"
-                       class="flex-grow p-2.5 bg-[#171717] border border-[#2e2e2e] text-white placeholder-neutral-500 rounded-full focus:ring-2 focus:ring-neutral-400 focus:border-neutral-400 text-sm transition-colors"
-                       placeholder="Example: Pen">
-        <button type="button"
-                        id="addNewItemSymbolButton"
-                        title="Add item"
-                        aria-label="Add item to list">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 text-neutral-400 hover:text-white" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                    </svg>
-                </button>
+      <div class="flex justify-between items-center mb-2">
+        <label for="newItemName" class="block text-sm font-medium text-white">Add New Item</label>
+        <label for="newItemAmount" class="block text-xs font-medium text-neutral-400">Qty</label>
+      </div>
+      <div class="flex items-center gap-1.5">
+        <div class="input-with-button-container flex-grow min-w-0 flex items-center">
+          <input type="text"
+                         id="newItemName"
+                         maxlength="60"
+                         autocomplete="off"
+                         class="w-full p-2.5 bg-[#171717] border border-[#2e2e2e] text-white placeholder-neutral-500 rounded-full focus:outline-none focus:ring-2 focus:ring-neutral-400 focus:border-neutral-400 text-sm transition-colors"
+                         placeholder="Example: Pen">
+          <button type="button"
+                          id="addNewItemSymbolButton"
+                          title="Add item"
+                          aria-label="Add item to list">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 text-neutral-400 hover:text-white" aria-hidden="true">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                      </svg>
+                  </button>
+        </div>
+        <input type="number"
+               id="newItemAmount"
+               min="1"
+               max="999"
+               value="5"
+               title="Starting amount"
+               aria-label="Starting amount for new item"
+               class="qty-input w-16 p-2.5 bg-[#171717] border border-[#2e2e2e] text-white text-center rounded-full focus:outline-none focus:ring-2 focus:ring-neutral-400 focus:border-neutral-400 text-sm transition-colors flex-shrink-0">
       </div>
       <p id="itemInputFeedback" class="text-xs mt-2 hidden" role="status" aria-live="polite"></p>
     </div>
@@ -587,7 +620,8 @@
       <div class="bg-[#0d0d0d] p-8 rounded-xl text-center w-full border border-[#222222]">
         <h2 id="winPopupTitle" class="text-2xl font-bold mb-3 text-white">Congratulations!</h2>
         <p class="text-neutral-300 text-lg mb-1">You've won:</p>
-        <p id="winningItemText" class="text-3xl font-semibold text-blue-400 mb-6 break-words"></p>
+        <p id="winningItemText" class="text-3xl font-semibold text-blue-400 mb-1 break-words"></p>
+        <p id="winningItemRemainingText" class="text-neutral-400 text-xs mb-6"></p>
         <button type="button"
                         id="closePopupButton"
                         class="py-3 px-6 rounded-full shadow-lg hover:shadow-xl transform active:scale-95 transition-all duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold focus:ring-blue-400">
@@ -612,6 +646,7 @@
         const wheelPointer = document.getElementById('wheelPointer');
         const spinButton = document.getElementById('spinButton');
         const newItemNameInput = document.getElementById('newItemName');
+        const newItemAmountInput = document.getElementById('newItemAmount');
         const addNewItemSymbolButton = document.getElementById('addNewItemSymbolButton');
         const itemInputFeedback = document.getElementById('itemInputFeedback');
         const itemListElement = document.getElementById('itemList');
@@ -621,6 +656,7 @@
         const resetDefaultsButton = document.getElementById('resetDefaultsButton');
         const winPopup = document.getElementById('winPopup');
         const winningItemText = document.getElementById('winningItemText');
+        const winningItemRemainingText = document.getElementById('winningItemRemainingText');
         const closePopupButton = document.getElementById('closePopupButton');
         const removeWinnerButton = document.getElementById('removeWinnerButton');
         const menuPanel = document.getElementById('menuPanel');
@@ -663,6 +699,7 @@
         const googleColors = ['#4285F4', '#EA4335', '#FBBC04', '#34A853']; // Base colors for wheel
         const googleColorsFull = ['#4385f5', '#dc4438', '#f5b401', '#109d59', '#77a7fb', '#e57368', '#fbcb43', '#34b67a']; // Colors for confetti
         const STORAGE_KEY = 'gameshowWheelItems';
+        const DEFAULT_ITEM_AMOUNT = 5;
         const POP_OUT_OFFSET = 12; 
         const POP_OUT_DURATION = 300; 
         const POPUP_DELAY = 450; 
@@ -687,12 +724,20 @@
             if (!item || typeof item !== 'object') return null;
             const name = typeof item.name === 'string' ? item.name.trim() : '';
             if (!name) return null;
+            const rawAmount = Number(item.amount);
+            const amount = Number.isFinite(rawAmount)
+                ? Math.max(0, Math.min(999, Math.floor(rawAmount)))
+                : DEFAULT_ITEM_AMOUNT;
+            const active = amount > 0
+                ? (typeof item.active === 'boolean' ? item.active : true)
+                : false;
             return {
                 id: (item.id !== undefined && item.id !== null && String(item.id).trim() !== '')
                     ? String(item.id)
                     : `${Date.now()}_${index}`,
                 name: name.slice(0, 60),
-                active: typeof item.active === 'boolean' ? item.active : true
+                active,
+                amount
             };
         }
 
@@ -739,13 +784,13 @@
         function getDefaultItems() {
             const timestamp = Date.now();
             return [
-                { id: timestamp + '_1', name: 'Bag', active: true },
-                { id: timestamp + '_2', name: 'Shirt', active: true },
-                { id: timestamp + '_3', name: 'Gemini Tumbler', active: true },
-                { id: timestamp + '_4', name: 'Socks', active: true },
-                { id: timestamp + '_5', name: 'Hat', active: true },
-                { id: timestamp + '_6', name: 'Lanyard', active: true },
-                { id: timestamp + '_7', name: 'Pen', active: true }
+                { id: timestamp + '_1', name: 'Bag', active: true, amount: DEFAULT_ITEM_AMOUNT },
+                { id: timestamp + '_2', name: 'Shirt', active: true, amount: DEFAULT_ITEM_AMOUNT },
+                { id: timestamp + '_3', name: 'Gemini Tumbler', active: true, amount: DEFAULT_ITEM_AMOUNT },
+                { id: timestamp + '_4', name: 'Socks', active: true, amount: DEFAULT_ITEM_AMOUNT },
+                { id: timestamp + '_5', name: 'Hat', active: true, amount: DEFAULT_ITEM_AMOUNT },
+                { id: timestamp + '_6', name: 'Lanyard', active: true, amount: DEFAULT_ITEM_AMOUNT },
+                { id: timestamp + '_7', name: 'Pen', active: true, amount: DEFAULT_ITEM_AMOUNT }
             ];
         }
 
@@ -778,12 +823,15 @@
 
                 const checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
-                checkbox.checked = item.active;
+                checkbox.checked = item.active && item.amount > 0;
                 checkbox.setAttribute('aria-label', `Toggle active state for ${item.name}`);
                 checkbox.className = 'h-5 w-5 rounded cursor-pointer flex-shrink-0 accent-blue-600 mr-3';
                 checkbox.addEventListener('change', () => {
+                    if (checkbox.checked && item.amount <= 0) {
+                        item.amount = 1;
+                    }
                     item.active = checkbox.checked;
-                    saveItems(false);
+                    saveItems(true);
                 });
                 itemInfo.appendChild(checkbox);
 
@@ -817,7 +865,7 @@
                 } else {
                     const itemNameSpan = document.createElement('span');
                     itemNameSpan.textContent = item.name;
-                    itemNameSpan.className = 'text-white truncate cursor-pointer hover:text-neutral-300 font-medium text-sm';
+                    itemNameSpan.className = `truncate cursor-pointer font-medium text-sm ${item.amount > 0 ? 'text-white hover:text-neutral-300' : 'text-neutral-500'}`;
                     itemNameSpan.title = `Click to edit: ${item.name}`;
                     itemNameSpan.tabIndex = 0;
                     itemNameSpan.setAttribute('role', 'button');
@@ -869,6 +917,73 @@
                     });
                     actionButtons.appendChild(cancelButton);
                 } else {
+                    // Compact customizable amount stepper (- [amount] +)
+                    const qtyWrapper = document.createElement('div');
+                    qtyWrapper.className = 'flex items-center bg-[#171717] border border-[#2e2e2e] rounded-md mr-2';
+
+                    const decBtn = document.createElement('button');
+                    decBtn.type = 'button';
+                    decBtn.textContent = '−';
+                    decBtn.className = 'px-1.5 py-0.5 text-xs font-bold text-neutral-400 hover:text-white hover:bg-[#222222] rounded-md transition-colors focus:outline-none';
+                    decBtn.title = 'Decrease amount';
+                    decBtn.setAttribute('aria-label', `Decrease amount for ${item.name}`);
+                    decBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        item.amount = Math.max(0, (item.amount || 0) - 1);
+                        if (item.amount === 0) {
+                            item.active = false;
+                        }
+                        saveItems(true);
+                    });
+
+                    const qtyInput = document.createElement('input');
+                    qtyInput.type = 'number';
+                    qtyInput.min = '0';
+                    qtyInput.max = '999';
+                    qtyInput.value = String(item.amount ?? DEFAULT_ITEM_AMOUNT);
+                    qtyInput.setAttribute('aria-label', `Amount for ${item.name}`);
+                    qtyInput.className = `qty-input w-10 bg-[#171717] text-center text-xs font-semibold py-0.5 focus:outline-none focus:ring-1 focus:ring-neutral-400 rounded ${item.amount > 0 ? 'text-white' : 'text-red-400'}`;
+                    const commitQty = () => {
+                        const parsed = Math.floor(Number(qtyInput.value));
+                        const nextAmount = Number.isFinite(parsed) ? Math.max(0, Math.min(999, parsed)) : 0;
+                        const wasZero = item.amount === 0;
+                        item.amount = nextAmount;
+                        if (nextAmount === 0) {
+                            item.active = false;
+                        } else if (wasZero) {
+                            item.active = true;
+                        }
+                        saveItems(true);
+                    };
+                    qtyInput.addEventListener('change', commitQty);
+                    qtyInput.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            qtyInput.blur();
+                        }
+                    });
+
+                    const incBtn = document.createElement('button');
+                    incBtn.type = 'button';
+                    incBtn.textContent = '+';
+                    incBtn.className = 'px-1.5 py-0.5 text-xs font-bold text-neutral-400 hover:text-white hover:bg-[#222222] rounded-md transition-colors focus:outline-none';
+                    incBtn.title = 'Increase amount';
+                    incBtn.setAttribute('aria-label', `Increase amount for ${item.name}`);
+                    incBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const wasZero = item.amount === 0;
+                        item.amount = Math.min(999, (item.amount || 0) + 1);
+                        if (wasZero && item.amount > 0) {
+                            item.active = true;
+                        }
+                        saveItems(true);
+                    });
+
+                    qtyWrapper.appendChild(decBtn);
+                    qtyWrapper.appendChild(qtyInput);
+                    qtyWrapper.appendChild(incBtn);
+                    actionButtons.appendChild(qtyWrapper);
+
                     const editButton = document.createElement('button');
                     editButton.type = 'button';
                     editButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" class="w-5 h-5 text-neutral-400 hover:text-white" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" /></svg>`;
@@ -929,26 +1044,24 @@
             const name = newItemNameInput.value.trim();
             if (!name) return;
 
+            const parsedQty = Math.floor(Number(newItemAmountInput ? newItemAmountInput.value : DEFAULT_ITEM_AMOUNT));
+            const amountToAdd = Number.isFinite(parsedQty) && parsedQty > 0 ? Math.min(999, parsedQty) : DEFAULT_ITEM_AMOUNT;
+
             const existingItem = items.find(item => item.name.toLowerCase() === name.toLowerCase());
             if (!existingItem) {
                 const newId = Date.now().toString() + '_' + Math.random().toString(36).slice(2, 7);
-                items.push({ id: newId, name: name, active: true });
+                items.push({ id: newId, name: name, active: true, amount: amountToAdd });
                 newItemNameInput.value = '';
                 if (itemInputFeedback) itemInputFeedback.classList.add('hidden');
                 saveItems(true);
                 const listContainer = document.getElementById('itemListContainer');
                 listContainer.scrollTop = listContainer.scrollHeight;
-            } else if (!existingItem.active) {
+            } else {
+                existingItem.amount = Math.min(999, (existingItem.amount || 0) + amountToAdd);
                 existingItem.active = true;
                 newItemNameInput.value = '';
                 saveItems(true);
-                showInputFeedback(`Re-enabled "${existingItem.name}".`, false);
-            } else {
-                newItemNameInput.classList.add('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
-                showInputFeedback(`"${existingItem.name}" is already in the list.`, true);
-                setTimeout(() => {
-                    newItemNameInput.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
-                }, 1500);
+                showInputFeedback(`Added +${amountToAdd} to "${existingItem.name}" (total: ${existingItem.amount}).`, false);
             }
         }
 
@@ -959,11 +1072,22 @@
                 triggerAddItem();
             }
         });
+        if (newItemAmountInput) {
+            newItemAmountInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    triggerAddItem();
+                }
+            });
+        }
 
         toggleAllItemsButton.addEventListener('click', () => {
             if (items.length === 0) return;
-            const shouldActivateAll = items.some(item => !item.active);
+            const shouldActivateAll = items.some(item => !item.active || item.amount <= 0);
             items.forEach(item => {
+                if (shouldActivateAll && item.amount <= 0) {
+                    item.amount = 1;
+                }
                 item.active = shouldActivateAll;
             });
             saveItems(true);
@@ -1192,7 +1316,7 @@
 
         function spinWheel() {
             if (isSpinning) return;
-            const activeItems = items.filter(item => item.active);
+            const activeItems = items.filter(item => item.active && item.amount > 0);
             if (activeItems.length === 0) {
                 noActiveItemsMessage.classList.remove('hidden');
                 setTimeout(() => noActiveItemsMessage.classList.add('hidden'), 3000);
@@ -1242,8 +1366,18 @@
                         const winningItem = activeItems[winningSegmentIndex];
                         if (winningItem) {
                             lastWinningItemId = winningItem.id;
+                            // Decrement item amount by -1 when won
+                            const currentAmt = typeof winningItem.amount === 'number' ? winningItem.amount : 1;
+                            winningItem.amount = Math.max(0, currentAmt - 1);
+                            try {
+                                localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+                            } catch (e) {
+                                console.error("Error saving items to localStorage:", e);
+                            }
+                            renderItemsList();
+
                             setTimeout(() => {
-                                showWinPopup(winningItem.name);
+                                showWinPopup(winningItem);
                             }, POPUP_DELAY);
                         } else {
                             console.error('Error: Could not determine winning item. Index:', winningSegmentIndex);
@@ -1291,8 +1425,19 @@
         }
 
         // --- Popups & Confetti ---
-        function showWinPopup(itemName) {
+        function showWinPopup(winningItem) {
+            const itemName = typeof winningItem === 'object' ? winningItem.name : String(winningItem);
+            const remaining = typeof winningItem === 'object' ? winningItem.amount : null;
             winningItemText.textContent = itemName;
+            if (winningItemRemainingText) {
+                if (remaining === 0) {
+                    winningItemRemainingText.textContent = '0 remaining (auto-removed from wheel)';
+                } else if (typeof remaining === 'number') {
+                    winningItemRemainingText.textContent = `${remaining} remaining`;
+                } else {
+                    winningItemRemainingText.textContent = '';
+                }
+            }
             winPopup.classList.remove('hidden');
             void winPopup.offsetWidth; // Force layout reflow for CSS transition
             winPopup.classList.add('popup-enter-active');
@@ -1311,8 +1456,14 @@
                 popOutProgress = 0;
                 winningSegmentIndex = -1;
                 if (popOutAnimationId) cancelAnimationFrame(popOutAnimationId);
+                // Automatically deactivate any item whose amount reached 0
+                items.forEach(item => {
+                    if (item.amount <= 0) {
+                        item.active = false;
+                    }
+                });
                 setSpinningState(false);
-                drawWheel();
+                saveItems(true);
                 spinButton.focus();
             }, 300);
 
@@ -1497,7 +1648,7 @@
 
         // --- Utility & Event Listeners ---
         function checkActiveItems() {
-            const hasActiveItems = items.some(item => item.active);
+            const hasActiveItems = items.some(item => item.active && item.amount > 0);
             if (!isSpinning) {
                 spinButton.disabled = !hasActiveItems;
                 spinButton.classList.toggle('opacity-50', !hasActiveItems);
@@ -1505,7 +1656,7 @@
             }
             noActiveItemsMessage.classList.toggle('hidden', hasActiveItems);
             if (toggleAllItemsButton) {
-                const anyInactive = items.some(item => !item.active);
+                const anyInactive = items.some(item => !item.active || item.amount <= 0);
                 toggleAllItemsButton.textContent = (items.length > 0 && !anyInactive) ? 'Deselect All' : 'Select All';
                 toggleAllItemsButton.disabled = items.length === 0;
                 toggleAllItemsButton.classList.toggle('opacity-50', items.length === 0);
