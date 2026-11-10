@@ -1,10 +1,12 @@
 'use strict';
 
-const CACHE_NAME = 'prize-wheel-offline-v2';
+const CACHE_NAME = 'prize-wheel-offline-v3';
 const PRECACHE_URLS = [
   './',
   './index.html',
-  './sw.js'
+  './sw.js',
+  './favicon.svg',
+  './manifest.webmanifest'
 ];
 
 self.addEventListener('install', (event) => {
