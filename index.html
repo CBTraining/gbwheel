@@ -248,11 +248,22 @@
       .lg\:w-1\/2 { width: 50%; }
     }
 
-    /* Base typography and true black theme reset */
+    /* Base typography and subtle blue radial gradient background */
     body {
       font-family: 'Google Sans', sans-serif;
       overscroll-behavior: none;
       background-color: #000000;
+      background-image: radial-gradient(
+        ellipse 70% 55% at 50% 100%,
+        #233e5b 0%,
+        #1b3047 20%,
+        #132131 40%,
+        #0b141d 60%,
+        #05090e 78%,
+        #000000 100%
+      );
+      background-repeat: no-repeat;
+      background-attachment: fixed;
       color: #FFFFFF;
       min-height: 100vh;
       min-height: 100dvh;
