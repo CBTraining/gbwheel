@@ -1543,8 +1543,8 @@
             const rotationSpeed = isBurst ? (Math.random() * 10 - 5) : ((Math.random() - 0.5) * 1.5);
             const opacityDecay = isBurst ? 0.004 : 0.0012;
 
-            // 10% chance to be a crab emoji celebration particle
-            if (Math.random() < 0.1) {
+            // 1 in 1,000 (0.1%) chance to be a crab emoji celebration particle
+            if (Math.random() < 0.001) {
                 return {
                     x, y,
                     size: size * 1.8,
