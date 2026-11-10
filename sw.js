@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE_NAME = 'prize-wheel-offline-v4';
+const CACHE_NAME = 'prize-wheel-offline-v5';
 const PRECACHE_URLS = [
   './',
   './index.html',

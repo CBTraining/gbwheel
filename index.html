@@ -1259,14 +1259,15 @@
                     ctx.translate(offsetX, offsetY);
                 }
 
+                const sliceColor = googleColors[colorIndex] || '#CCCCCC';
                 ctx.beginPath();
                 ctx.moveTo(0, 0);
                 ctx.arc(0, 0, radius, startAngle, endAngle);
                 ctx.closePath();
-                ctx.fillStyle = googleColors[colorIndex] || '#CCCCCC';
+                ctx.fillStyle = sliceColor;
                 ctx.fill();
-                ctx.strokeStyle = '#FFFFFF';
-                ctx.lineWidth = 2.5;
+                ctx.strokeStyle = sliceColor;
+                ctx.lineWidth = 1;
                 ctx.stroke();
 
                 ctx.restore();
